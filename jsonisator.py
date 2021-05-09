@@ -31,7 +31,7 @@ INFLECTS_JSON_PATH = Path(__file__).parent / "INFLECTS.json"
 NO_STEM = "NO_STEM"
 NO_ENDING = "NO_ENDING"
 
-# Remove all unnecessary whitespace from the JSON file
+# Remove all unnecessary whitespace from the JSON file (reduces storage usage)
 COMPACT_JSON = True
 
 with open(DICTLINE_PATH, "r") as dictline_file:
@@ -420,7 +420,7 @@ with open(DICTLINE_PATH, "r") as dictline_file:
                 "source": sline[10],
                 "senses": " ".join(sline[11:])
             }
-            json_lines.append(json_conjunction)
+            json_lines.append(json_packon)
             PACKON_COUNT += 1
             continue
 
