@@ -21,11 +21,15 @@ from pathlib import Path
 # Getting things done was the first priority while writing this. Also, I'm not very well versed
 # in Python. Please take that in account before calling thousands of curses upon me.
 
-DICTLINE_PATH = Path(__file__).parent / "DICTLINE.TXT"
-DICTLINE_JSON_PATH = Path(__file__).parent / "DICTLINE.json"
+# Set up the output directory in case it doesn't exist
+OUTPUT_DIRECTORY_PATH = Path(__file__).parent / "output/"
+Path(OUTPUT_DIRECTORY_PATH).mkdir(exist_ok = True)
 
-INFLECTS_PATH = Path(__file__).parent / "INFLECTS.txt"
-INFLECTS_JSON_PATH = Path(__file__).parent / "INFLECTS.json"
+DICTLINE_PATH = Path(__file__).parent / "sources/DICTLINE.TXT"
+DICTLINE_JSON_PATH = Path(__file__).parent / "output/DICTLINE.json"
+
+INFLECTS_PATH = Path(__file__).parent / "sources/INFLECTS.txt"
+INFLECTS_JSON_PATH = Path(__file__).parent / "output/INFLECTS.json"
 
 # Used for internal representation
 NO_STEM = "NO_STEM"
