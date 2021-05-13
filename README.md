@@ -445,6 +445,7 @@ Example form:
 | --------------------- | ---------------------------------------------- |
 | `conjugation`         | Conjugation the ending is applied to           |
 | `conjugation_variant` | Conjugation variant for the ending             |
+| `case`                | Case the ending represents                     |
 | `tense`               | Tense the ending represents                    |
 | `voice`               | Voice the ending represents                    |
 | `mood`                | Mood the ending represents                     |
