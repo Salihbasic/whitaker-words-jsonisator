@@ -17,11 +17,14 @@ Each dictionary entry and each inflection represents a single JSON entry and eac
 Below is a series of table documenting all entries with explanations for each attribute.
 
 ## Common attributes
+
+### Common dictionary attributes
 But first, there is a series of attributes which are the same for all __dictionary__ entries. In the tables below, I shall omit them, but you should assume that all entries have them:
 
 | Attribute   | Description                         |
 | ----------- | ----------------------------------- |
 | `pos`       | Type of word                        |
+| `stems`     | List of all stems the word has*     |
 | `age`       | Approximate time of word's origin   |
 | `geography` | Approximate location word's usage   | 
 | `area`      | Area of study the word pertains to  |
@@ -29,6 +32,10 @@ But first, there is a series of attributes which are the same for all __dictiona
 | `source`    | Dictionary the word was taken from  |
 | `senses`    | Word definitions and meanings       |
 
+\* Depending on word type, the number of stems ranges anywhere from 1 to 4. In the tables below, 
+each table entry will have a detailed explanation.
+
+### Common inflection attributes
 The same goes for attributes in the __inflection__ entries:
 
 | Attribute    | Description                               |
@@ -46,8 +53,8 @@ The same goes for attributes in the __inflection__ entries:
 
 | Attribute            | Description                      |
 | -------------------- | -------------------------------- |
-| `stem1`              | Nominative form                  |
-| `stem2`*             | Genitive stem                    |
+| `stems`(1)           | Nominative stem                  |
+| `stems`(2)           | Genitive stem*                   |
 | `declension`         | Noun declension                  |
 | `declension_variant` | Specific type of noun declension |
 | `gender`             | Grammatical gender of the noun   |
@@ -59,8 +66,7 @@ Example entry:
 
 ```json
     {
-        "stem1": "abac",
-        "stem2": "abac",
+        "stems": ["abac", "abac"],
         "pos": "N",
         "declension": "2",
         "declension_variant": "1",
@@ -75,14 +81,12 @@ Example entry:
     }
 ```
 
-would correspond to the noun `abacus, abaci`.
-
 ## Pronouns
 
 | Attribute            | Description                      |
 | -------------------- | -------------------------------- |
-| `stem1`              | Nominative form                  |
-| `stem2`*             | Genitive stem                    |
+| `stems`(1)           | Nominative stem                  |
+| `stems`(2)           | Genitive stem*                   |
 | `declension`         | Noun declension                  |
 | `declension_variant` | Specific type of noun declension |
 | `gender`             | Grammatical gender of the noun   |
@@ -94,8 +98,7 @@ Example entry:
 
 ```json
 {
-        "stem1": "qu",
-        "stem2": "NO_STEM",
+        "stems": ["qu", "NO_STEM"],
         "pos": "PRON",
         "declension": "1",
         "declension_variant": "3",
@@ -113,24 +116,21 @@ Example entry:
 
 | Attribute             | Description                                     |
 | --------------------- | ----------------------------------------------- |
-| `stem1`*              | First principal part minus `-o`                 |
-| `stem2`               | Second principal part (minus infinitive ending) |
-| `stem3`               | Third principal part (minus `-i`)               |
-| `stem4`               | Fourth principal part (minus `-us/um`)          |
+| `stems`(1)            | First principal part minus `-o`*                |
+| `stems`(2)            | Second principal part (minus infinitive ending) |
+| `stems`(3)            | Third principal part (minus `-i`)               |
+| `stems`(4)            | Fourth principal part (minus `-us/um`)          |
 | `conjugation`         | Verb conjugation                                |
 | `conjugation_variant` | Specific type of conjugation                    |
 | `verb_kind`           | Type of action the verb represents              |
 
-\* May be the only stem in (rare) Biblical/Aramaic verbs
+\* May be the __only__ stem in (rare) Biblical/Aramaic verbs
 
 Example entry:
 
 ```json
 {
-    "stem1": "put",
-    "stem2": "put",
-    "stem3": "putav",
-    "stem4": "putat",
+    "stems": ["put", "put", "putav", "putat"],
     "pos": "V",
     "conjugation": "1",
     "conjugation_variant": "1",
@@ -144,16 +144,14 @@ Example entry:
 }
 ```
 
-would correspond to the verb `puto, putare, putavi, putatus`.
-
 ## Adjectives
 
 | Attribute            | Description                           |
 | -------------------- | ------------------------------------- |
-| `stem1`              | Nominative form                       |
-| `stem2`              | Genitive stem                         | 
-| `stem3`*             | Comparative stem                      |
-| `stem4`*             | Superlative stem                      |
+| `stems`(1)           | Nominative stem                       |
+| `stems`(2)           | Genitive stem                         | 
+| `stems`(3)           | Comparative stem*                     |
+| `stems`(4)           | Superlative stem*                     |
 | `declension`         | Adjective declension                  |
 | `declension_variant` | Specific type of adjective declension |
 | `gender`             | Grammatical gender of the noun        |
@@ -165,10 +163,7 @@ Example form:
 
 ```json
 {
-    "stem1": "bon",
-    "stem2": "bon",
-    "stem3": "meli",
-    "stem4": "opti",
+    "stems": ["bon", "bon", "meli", "opti"],
     "pos": "ADJ",
     "declension": "1",
     "declension_variant": "1",
@@ -182,15 +177,13 @@ Example form:
 }
 ```
 
-would correspond to `bonus, boni, melior, optissimus`.
-
 ## Adverbs
 
 | Attribute            | Description                           |
 | -------------------- | ------------------------------------- |
-| `stem1`*             | Positive form                         |
-| `stem2`              | Comparative form                      | 
-| `stem3`              | Superlative form                      |
+| `stems`(1)           | Positive stem                         |
+| `stems`(2)           | Comparative stem*                     | 
+| `stems`(3)           | Superlative stem*                     |
 | `declension`         | Adjective declension                  |
 | `declension_variant` | Specific type of adjective declension |
 | `gender`             | Grammatical gender of the noun        |
@@ -202,9 +195,7 @@ Example form:
 
 ```json
 {
-    "stem1": "bene",
-    "stem2": "melius",
-    "stem3": "optime",
+    "stems": ["bene", "melius", "optime"],
     "pos": "ADV",
     "comparison": "X",
     "age": "X",
@@ -218,16 +209,16 @@ Example form:
 
 ## Prepositions
 
-| Attribute | Description        |
-| --------- | ------------------ |
-| `stem1`   | Preposition        |
-| `case`    | Case it determines |
+| Attribute  | Description        |
+| ---------- | ------------------ |
+| `stems`(1) | Preposition        |
+| `case`     | Case it determines |
 
 Example form:
 
 ```json
 {
-    "stem1": "ad",
+    "stems": ["ad"],
     "pos": "PREP",
     "case": "ACC",
     "age": "X",
@@ -241,15 +232,15 @@ Example form:
 
 ## Interjections
 
-| Attribute | Description  |
-| --------- | ------------ |
-| `stem1`   | Interjection |
+| Attribute  | Description  |
+| ---------- | ------------ |
+| `stems`(1) | Interjection |
 
 Example form:
 
 ```json
 {
-    "stem1": "vae",
+    "stems": ["vae"],
     "pos": "INTERJ",
     "age": "X",
     "area": "X",
@@ -264,10 +255,10 @@ Example form:
 
 | Attribute            | Description                         |
 | -------------------- | ----------------------------------- |
-| `stem1`*             | Cardinal number stem                |
-| `stem2`              | Ordinal number stem                 | 
-| `stem3`              | Distributive stem                   |
-| `stem4`              | Numerical adverb stem               |
+| `stems`(1)           | Cardinal number stem*               |
+| `stems`(2)           | Ordinal number stem                 | 
+| `stems`(3)           | Distributive stem                   |
+| `stems`(4)           | Numerical adverb stem               |
 | `declension`         | Numeral declension                  |
 | `declension_variant` | Specific type of numeral declension |
 | `numeral_sort`       | Specific type of number             |
@@ -279,10 +270,7 @@ Example form:
 
 ```json
 {
-    "stem1": "undeviginti",
-    "stem2": "undevicesim",
-    "stem3": "undevicen",
-    "stem4": "undevic",
+    "stems": ["undeviginti", "undevicesim", "undevicen", "undevic"],
     "pos": "NUM",
     "declension": "2",
     "declension_variant": "0",
@@ -299,15 +287,15 @@ Example form:
 
 ## Conjunction
 
-| Attribute | Description |
-| --------- | ----------- |
-| `stem1`   | Conjunction |
+| Attribute  | Description |
+| ---------- | ----------- |
+| `stems`(1) | Conjunction |
 
 Example form:
 
 ```json
 {
-    "stem1": "ubi",
+    "stems": ["ubi"],
     "pos": "CONJ",
     "age": "X",
     "area": "X",
@@ -324,8 +312,8 @@ Example form:
 
 | Attribute            | Description                       |
 | -------------------- | --------------------------------- |
-| `stem1`              | `-qu` packon                      |
-| `stem2`*             | `-cu` packon                      |  
+| `stems`(1)           | `-qu` packon                      |
+| `stems`(2)           | `-cu` packon*                     |  
 | `declension`         | Declension inflections required   |
 | `declension_variant` | Variant of the inflections        |
 | `packon_kind`        | Which pronoun type it pertains to |
@@ -334,8 +322,7 @@ Example form:
 
 ```json
 {
-    "stem1": "qu",
-    "stem2": "cu",
+    "stems": ["qu", "cu"],
     "pos": "PACK",
     "declension": "1",
     "declension_variant": "0",

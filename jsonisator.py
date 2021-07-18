@@ -106,8 +106,7 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         if sline[1] == 'N':
             # Entry is a noun with one stem (usually abbreviations and letters etc.)
             json_noun_one = {
-                "stem1": sline[0],
-                "stem2": NO_STEM,
+                "stems": (sline[0], NO_STEM),
                 "pos": sline[1],
                 "declension": int(sline[2]),
                 "declension_variant": int(sline[3]),
@@ -127,8 +126,7 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         if sline[2] == 'N':
             # Entry is a noun with two stems
             json_noun_two = {
-                "stem1": sline[0],
-                "stem2": sline[1],
+                "stems": (sline[0], sline[1]),
                 "pos": sline[2],
                 "declension": int(sline[3]),
                 "declension_variant": int(sline[4]),
@@ -148,8 +146,7 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         if sline[2] == 'PRON':
             # Entry is a pronoun
             json_pronoun = {
-                "stem1": sline[0],
-                "stem2": sline[1],
+                "stems": (sline[0], sline[1]),
                 "pos": sline[2],
                 "declension": int(sline[3]),
                 "declension_variant": int(sline[4]),
@@ -168,10 +165,7 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         if sline[1] == 'V':
             # Entry is a verb with one stem (a few Biblical/Aramaic verbs)
             json_verb_one = {
-                "stem1": sline[0],
-                "stem2": NO_STEM,
-                "stem3": NO_STEM,
-                "stem4": NO_STEM,
+                "stems": (sline[0], NO_STEM, NO_STEM, NO_STEM),
                 "pos": sline[1],
                 "conjugation": int(sline[2]),
                 "conjugation_variant": int(sline[3]),
@@ -190,10 +184,7 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         if sline[4] == 'V':
             # Entry is a verb with four stems
             json_verb_four = {
-                "stem1": sline[0],
-                "stem2": sline[1],
-                "stem3": sline[2],
-                "stem4": sline[3],
+                "stems": (sline[0], sline[1], sline[2], sline[3]),
                 "pos": sline[4],
                 "conjugation": int(sline[5]),
                 "conjugation_variant": int(sline[6]),
@@ -212,10 +203,7 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         if sline[1] == 'ADJ':
             # Entry is an adjective with one stem
             json_adjective_one = {
-                "stem1": sline[0],
-                "stem2": NO_STEM,
-                "stem3": NO_STEM,
-                "stem4": NO_STEM,
+                "stems": (sline[0], NO_STEM, NO_STEM, NO_STEM),
                 "pos": sline[1],
                 "declension": int(sline[2]),
                 "declension_variant": int(sline[3]),
@@ -234,10 +222,7 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         if sline[2] == 'ADJ':
             # Entry is an adjective with two stems
             json_adjective_two = {
-                "stem1": sline[0],
-                "stem2": sline[1],
-                "stem3": NO_STEM,
-                "stem4": NO_STEM,
+                "stems": (sline[0], sline[1], NO_STEM, NO_STEM),
                 "pos": sline[2],
                 "declension": int(sline[3]),
                 "declension_variant": int(sline[4]),
@@ -256,10 +241,7 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         if sline[4] == 'ADJ':
             # Entry is an adjective with four stems
             json_adjective_four = {
-                "stem1": sline[0],
-                "stem2": sline[1],
-                "stem3": sline[2],
-                "stem4": sline[3],
+                "stems": (sline[0], sline[1], sline[2], sline[3]),
                 "pos": sline[4],
                 "declension": int(sline[5]),
                 "declension_variant": int(sline[6]),
@@ -278,9 +260,7 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         if sline[1] == 'ADV':
             # Entry is an adverb with one stem
             json_adverb_one = {
-                "stem1": sline[0],
-                "stem2": NO_STEM,
-                "stem3": NO_STEM,
+                "stems": (sline[0], NO_STEM, NO_STEM),
                 "pos": sline[1],
                 "comparison": sline[2],
                 "age": sline[3],
@@ -297,9 +277,7 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         if sline[3] == 'ADV':
             # Entry is an adverb with three stems
             json_adverb_three = {
-                "stem1": sline[0],
-                "stem2": sline[1],
-                "stem3": sline[2],
+                "stems": (sline[0], sline[1], sline[2]),
                 "pos": sline[3],
                 "comparison": sline[4],
                 "age": sline[5],
@@ -316,7 +294,8 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         if sline[1] == 'PREP':
             # Entry is a preposition
             json_preposition = {
-                "stem1": sline[0],
+                # added extra comma to declare a singletone tuple, lest it be parsed as a string
+                "stems": (sline[0],),
                 "pos": sline[1],
                 "case": sline[2],
                 "age": sline[3],
@@ -333,7 +312,7 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         if sline[1] == 'INTERJ':
             # Entry is an interjection
             json_interjection = {
-                "stem1": sline[0],
+                "stems": (sline[0],),
                 "pos": sline[1],
                 "age": sline[2],
                 "area": sline[3],
@@ -349,10 +328,7 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         if sline[4] == 'NUM':
             # Entry is a number with four stems 
             json_number_four = {
-                "stem1": sline[0],
-                "stem2": sline[1],
-                "stem3": sline[2],
-                "stem4": sline[3],
+                "stems": (sline[0], sline[1], sline[2], sline[3]),
                 "pos": sline[4],
                 "declension": int(sline[5]),
                 "declension_variant": int(sline[6]),
@@ -372,10 +348,7 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         if sline[1] == 'NUM':
             # Entry is a number with one stem
             json_number_one = {
-                "stem1": sline[0],
-                "stem2": NO_STEM,
-                "stem3": NO_STEM,
-                "stem4": NO_STEM,
+                "stems": (sline[0], NO_STEM, NO_STEM, NO_STEM),
                 "pos": sline[1],
                 "declension": int(sline[2]),
                 "declension_variant": int(sline[3]),
@@ -395,7 +368,7 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         if sline[1] == 'CONJ':
             # Entry is a conjunction
             json_conjunction = {
-                "stem1": sline[0],
+                "stems": (sline[0],),
                 "pos": sline[1],
                 "age": sline[2],
                 "area": sline[3],
@@ -411,8 +384,7 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         if sline[2] == 'PACK':
             # Entry is a PACKON
             json_packon = {
-                "stem1": sline[0],
-                "stem2": sline[1],
+                "stems": (sline[0], sline[1]),
                 "pos": sline[2],
                 "declension": int(sline[3]),
                 "declension_variant": int(sline[4]),
@@ -762,9 +734,9 @@ with open(INFLECTS_PATH) as inflections_file:
 
         print("Total: " + str(TOTAL))
 
-        input("Press any key to exit.")
-
         if INFLECT_ERROR_COUNT > 0:
             print("Error lines are the following: ")
             for inflect_error_line in INFLECT_ERROR_LINES:
                 print(inflect_error_line)
+
+        input("Press any key to exit.")
