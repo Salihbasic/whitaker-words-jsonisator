@@ -2,6 +2,7 @@ import json
 import re
 
 from pathlib import Path
+from datetime import datetime
 
 # This is a hacked up script with the goal of converting the plaintext data from
 # DICTLINE.txt and INFLECTIONS.txt to a JSON format. The benefits of using JSON 
@@ -31,12 +32,22 @@ DICTLINE_JSON_PATH = Path(__file__).parent / "output/DICTLINE.json"
 INFLECTS_PATH = Path(__file__).parent / "sources/INFLECTS.txt"
 INFLECTS_JSON_PATH = Path(__file__).parent / "output/INFLECTS.json"
 
+REPORT_PATH = Path(__file__).parent / str("output/REPORT-" + datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + ".txt")
+
 # Used for internal representation
 NO_STEM = "NO_STEM"
 NO_ENDING = "NO_ENDING"
 
 # Remove all unnecessary whitespace from the JSON file (reduces storage usage)
 COMPACT_JSON = True
+
+# If set to True, the script will run through the files without any prompts
+#
+# Set SAVE_REPORT to True to get a report of the run saved in a file in the output dictionary
+#
+# This is mainly useful for running automated dictionary renewal
+HEADLESS = False
+SAVE_REPORT = False
 
 with open(DICTLINE_PATH, "r") as dictline_file:
     dictline_data = dictline_file.readlines()
@@ -413,7 +424,6 @@ with open(DICTLINE_PATH, "r") as dictline_file:
         else:
             json_file.write(json.dumps(json_lines, indent = 4))
         
-        print("Finished parsing and saved the JSON document with (" + str(ERROR_COUNT) + ") errors.")
 
         TOTAL = (NOUN_COUNT 
                 + PRONOUN_COUNT 
@@ -426,33 +436,41 @@ with open(DICTLINE_PATH, "r") as dictline_file:
                 + CONJUNCTION_COUNT 
                 + PACKON_COUNT)
         
-        print("Successfully parsed:")
-        
-        print("")
-        print(str(NOUN_COUNT) + " NOUNS")
-        print(str(PRONOUN_COUNT) + " PRONOUNS")
-        print(str(VERB_COUNT) + " VERBS")
-        print(str(ADJECTIVE_COUNT) + " ADJECTIVES")
-        print(str(ADVERB_COUNT) + " ADVERBS")
-        print(str(PREPOSITION_COUNT) + " PREPOSITIONS")
-        print(str(INTERJECTION_COUNT) + " INTERJECTIONS")
-        print(str(NUMBER_COUNT) + " NUMBERS")
-        print(str(CONJUNCTION_COUNT) + " CONJUNCTIONS")
-        print(str(PACKON_COUNT) + " PACKONS")
-        print("")
+        result_dictionary = "Finished parsing and saved the JSON dictionary document with (" + str(ERROR_COUNT) + ") errors.\n"
+        result_dictionary += "Successfully parsed:\n"
 
-        print("TOTAL: " + str(TOTAL))
+        result_dictionary += ""
+        result_dictionary += str(NOUN_COUNT) + " NOUNS\n"
+        result_dictionary += str(PRONOUN_COUNT) + " PRONOUNS\n"
+        result_dictionary += str(VERB_COUNT) + " VERBS\n"
+        result_dictionary += str(ADJECTIVE_COUNT) + " ADJECTIVES\n"
+        result_dictionary += str(ADVERB_COUNT) + " ADVERBS\n"
+        result_dictionary += str(PREPOSITION_COUNT) + " PREPOSITIONS\n"
+        result_dictionary += str(INTERJECTION_COUNT) + " INTERJECTIONS\n"
+        result_dictionary += str(NUMBER_COUNT) + " NUMBERS\n"
+        result_dictionary += str(CONJUNCTION_COUNT) + " CONJUNCTIONS\n"
+        result_dictionary += str(PACKON_COUNT) + " PACKONS\n"
+        result_dictionary += ""
+
+        result_dictionary += "TOTAL: " + str(TOTAL) + "\n"
 
         if ERROR_COUNT > 0:
-            print("Error lines are the following: ")
+            result_dictionary += "Error lines are the following: \n"
             for error_line in ERROR_LINES:
-                print(error_line)
-        
-        print("Press 'c' if you wish to parse endings. Otherwise press any other key to exit.")
-        next = input("")
+                result_dictionary += error_line + "\n"
 
-        if next != 'c':
-            exit()
+        if (not HEADLESS):
+            print(result_dictionary)
+
+            print("Press 'c' if you wish to parse endings. Otherwise press any other key to exit.")
+            next = input("")
+
+            if next != 'c':
+                exit()
+        
+        if (SAVE_REPORT):
+            with open(REPORT_PATH, "w") as report_file:
+                report_file.write(result_dictionary)
 
 
 #################################
@@ -702,10 +720,6 @@ with open(INFLECTS_PATH) as inflections_file:
         else:
             endings_json_file.write(json.dumps(json_inflects, indent = 4))
 
-        print("Finished parsing and saved the JSON document with (" + str(INFLECT_ERROR_COUNT) + ") errors.")
-
-        print("Successfully parsed:")
-
         TOTAL = (ADVERB_ENDING_COUNT 
                 + PREPOSITION_ENDING_COUNT
                 + CONJUNCTION_ENDING_COUNT
@@ -717,26 +731,37 @@ with open(INFLECTS_PATH) as inflections_file:
                 + SUPINE_ENDING_COUNT 
                 + PRONOUN_ENDING_COUNT 
                 + NUMBER_ENDING_COUNT)
-        
-        print("")
-        print(str(NOUN_ENDING_COUNT) + " NOUNS")
-        print(str(ADJECTIVE_ENDING_COUNT) + " ADJECTIVES")
-        print(str(ADVERB_ENDING_COUNT) + " ADVERBS")
-        print(str(PREPOSITION_ENDING_COUNT) + " PREPOSITIONS")
-        print(str(INTERJECTION_ENDING_COUNT) + " INTERJECTIONS")
-        print(str(PRONOUN_ENDING_COUNT) + " PRONOUNS")
-        print(str(VERB_ENDING_COUNT) + " VERBS")
-        print(str(VPAR_ENDING_COUNT) + " VERB PARTICIPLES")
-        print(str(SUPINE_ENDING_COUNT) + " SUPINES")
-        print(str(NUMBER_ENDING_COUNT) + " NUMBERS")
-        print(str(CONJUNCTION_ENDING_COUNT) + " CONJUNCTIONS")
-        print("")
 
-        print("Total: " + str(TOTAL))
+        result_inflections = "\nFinished parsing and saved the JSON inflections document with (" + str(INFLECT_ERROR_COUNT) + ") errors.\n"
+        result_inflections += "Successfully parsed:\n"
+
+        result_inflections += ""
+        result_inflections += str(NOUN_ENDING_COUNT) + " NOUNS\n"
+        result_inflections += str(ADJECTIVE_ENDING_COUNT) + " ADJECTIVES\n"
+        result_inflections += str(ADVERB_ENDING_COUNT) + " ADVERBS\n"
+        result_inflections += str(PREPOSITION_ENDING_COUNT) + " PREPOSITIONS\n"
+        result_inflections += str(INTERJECTION_ENDING_COUNT) + " INTERJECTIONS\n"
+        result_inflections += str(PRONOUN_ENDING_COUNT) + " PRONOUNS\n"
+        result_inflections += str(VERB_ENDING_COUNT) + " VERBS\n"
+        result_inflections += str(VPAR_ENDING_COUNT) + " VERB PARTICIPLES\n"
+        result_inflections += str(SUPINE_ENDING_COUNT) + " SUPINES\n"
+        result_inflections += str(NUMBER_ENDING_COUNT) + " NUMBERS\n"
+        result_inflections += str(CONJUNCTION_ENDING_COUNT) + " CONJUNCTIONS\n"
+        result_inflections += ""
+
+        result_inflections += "TOTAL: " + str(TOTAL)
 
         if INFLECT_ERROR_COUNT > 0:
-            print("Error lines are the following: ")
+            result_inflections += "Error lines are the following:\n"
             for inflect_error_line in INFLECT_ERROR_LINES:
-                print(inflect_error_line)
+                result_inflections += inflect_error_line + "\n"
+        
+        if (not HEADLESS):
+            print(result_inflections)
 
-        input("Press any key to exit.")
+        if (SAVE_REPORT):
+            with open(REPORT_PATH, "a") as report_file:
+                report_file.write(result_inflections)
+
+        if (not HEADLESS):
+            input("Press any key to exit.")
